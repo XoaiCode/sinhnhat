@@ -106,10 +106,24 @@
   <body>
     <div class="glow"></div>
 
-    <audio autoplay loop>
+    <audio id="bgMusic" loop>
       <source src="/mp3/snaptt.me-128kbps-1748882385429.mp3" type="audio/mp3" />
       Trình duyệt không hỗ trợ âm thanh.
     </audio>
+    <div
+      id="musicBtn"
+      style="
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 36px;
+        cursor: pointer;
+        z-index: 20;
+      "
+    >
+      💛
+    </div>
 
     <script>
       const messages = [
@@ -167,6 +181,36 @@
       setInterval(createFallingText, 400);
       setInterval(createFallingHeart, 300);
       setInterval(createShootingStar, 1000);
+    </script>
+    <script>
+      const music = document.getElementById("bgMusic");
+      const btn = document.getElementById("musicBtn");
+      let isPlaying = false;
+
+      btn.addEventListener("click", () => {
+        if (isPlaying) {
+          music.pause();
+          btn.innerText = "💛";
+        } else {
+          music.play();
+          btn.innerText = "💖";
+        }
+        isPlaying = !isPlaying;
+      });
+
+      // Tự động phát nếu được trình duyệt cho phép
+      window.addEventListener("load", () => {
+        music
+          .play()
+          .then(() => {
+            isPlaying = true;
+            btn.innerText = "💖";
+          })
+          .catch(() => {
+            // Trình duyệt chặn autoplay, chờ người bấm
+            btn.innerText = "💛";
+          });
+      });
     </script>
   </body>
 </html>
